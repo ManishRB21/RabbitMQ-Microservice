@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Folder Structure to Tree</title>
+    <style>
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin-left: 20px;
+        }
+
+        ul li.file {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+
+<div id="tree"></div>
+
+<script>
+    function createTree(data, parentElement) {
+        const ul = document.createElement('ul');
+
+        for (const key in data) {
+            const li = document.createElement('li');
+            li.textContent = key;
+
+            if (typeof data[key] === 'object') {
+                li.appendChild(createTree(data[key], li));
+            } else {
+                li.className = 'file';
+            }
+
+            ul.appendChild(li);
+        }
+
+        parentElement.appendChild(ul);
+    }
+
+    // Example JSON folder structure
+    const jsonFolderStructure = {
+        "root": {
+            "folder1": {
+                "file1": "content1",
+                "file2": "content2"
+            },
+            "folder2": {
+                "file3": "content3"
+            },
+            "file4": "content4"
+        }
+    };
+
+    const treeContainer = document.getElementById('tree');
+    createTree(jsonFolderStructure, treeContainer);
+</script>
+
+</body>
+</html>
+
+
+//////
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Folder Structure to Tree</title>
+    <style>
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin-left: 20px;
+        }
+
+        ul li.file {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+
+<div id="tree"></div>
+
+<script>
+    function createTree(data, parentElement) {
+        const ul = document.createElement('ul');
+
+        data.children.forEach(child => {
+            const li = document.createElement('li');
+            li.textContent = child.name;
+
+            if (child.type === 'folder') {
+                li.appendChild(createTree(child, li));
+            } else {
+                li.className = 'file';
+            }
+
+            ul.appendChild(li);
+        });
+
+        parentElement.appendChild(ul);
+        return ul;
+    }
+
+    // Example JSON folder structure
+    const data = {
+        name: 'root',
+        type: 'folder',
+        children: [
+            {
+                name: 'folder1',
+                type: 'folder',
+                children: [
+                    { name: 'file1.txt', type: 'file' },
+                    { name: 'file2.txt', type: 'file' },
+                ],
+            },
+            {
+                name: 'folder2',
+                type: 'folder',
+                children: [
+                    {
+                        name: 'subfolder',
+                        type: 'folder',
+                        children: [{ name: 'file3.txt', type: 'file' }],
+                    },
+                    { name: 'file4.txt', type: 'file' },
+                ],
+            },
+            { name: 'file5.txt', type: 'file' },
+        ],
+    };
+
+    const treeContainer = document.getElementById('tree');
+    createTree(data, treeContainer);
+</script>
+
+</body>
+</html>
